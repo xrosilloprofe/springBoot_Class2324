@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,13 +38,35 @@ public class UsuarioDBRepository implements IUsuarioDBRepository{
     }
 
     @Override
-    public Usuario getbyID() throws SQLException {
-        return null;
+    public Usuario getbyID(int id) throws SQLException {
+        Usuario usuario = null;
+        String query = "select * from usuario where id = ?";
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next())
+               usuario = new Usuario(resultSet.getInt(1), resultSet.getString(2),
+                    resultSet.getString(3));
+        }
+        return usuario;
     }
 
     @Override
-    public Usuario deleteUser() throws SQLException {
-        return null;
+    public Usuario deleteUser(int id) throws SQLException {
+        Usuario usuario = getbyID(id);
+        String query = "delete from usuario where id = ?";
+
+        if(usuario==null)
+            return null;
+
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1,id);
+            ps.executeUpdate();
+        }
+        return usuario;
     }
 
     @Override
