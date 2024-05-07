@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface IUsuarioDBRepository {
     List<Usuario> getAll() throws SQLException;
+    Usuario getbyID() throws SQLException;
+    Usuario deleteUser() throws SQLException;
+    Usuario addUser() throws SQLException;
+    Usuario updateUser() throws SQLException;
 
 }

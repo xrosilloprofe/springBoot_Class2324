@@ -39,4 +39,24 @@ public class UsuarioDBRepository implements IUsuarioDBRepository{
 
         return usuarios;
     }
+
+    @Override
+    public Usuario getbyID() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Usuario deleteUser() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Usuario addUser() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Usuario updateUser() throws SQLException {
+        return null;
+    }
 }
