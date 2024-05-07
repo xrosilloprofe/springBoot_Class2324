@@ -1,11 +1,11 @@
 package es.ieslavereda.springboot_class2324.controller;
 
-import es.ieslavereda.springboot_class2324.repository.Usuario;
+import es.ieslavereda.springboot_class2324.repository.model.Usuario;
 import es.ieslavereda.springboot_class2324.service.UsuarioService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,21 +13,48 @@ import java.util.List;
 @RequestMapping("/api")
 public class UsuarioController {
 
+    @Autowired
     private UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService){
-        this.usuarioService = usuarioService;
-    }
+//    public UsuarioController(UsuarioService usuarioService){
+//        this.usuarioService = usuarioService;
+//    }
 
     @GetMapping("/usuarios/{id}")
-    public Usuario getById(@PathVariable("id") int id){
-        return usuarioService.getById(id);
+    public ResponseEntity<?> getById(@PathVariable("id") int id){
+        Usuario usuario1 = usuarioService.getById(id);
+        if(usuario1==null)
+            return new ResponseEntity<>("El usuario no existe", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(usuario1,HttpStatus.OK);
     }
 
     @GetMapping("/usuarios/")
-    public List<Usuario> getAll(){
-        return usuarioService.getAll();
+    public ResponseEntity<?> getAll(){
+        return new ResponseEntity<>(usuarioService.getAll(),HttpStatus.OK);
     }
 
+    @DeleteMapping("/usuarios/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id){
+        Usuario usuario1 = usuarioService.deleteUser(id);
+        if(usuario1==null)
+            return new ResponseEntity<>("El usuario no existe", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(usuario1,HttpStatus.OK);
+    }
+
+    @PutMapping("/usuarios/")
+    public ResponseEntity<?> updateUser(@RequestBody Usuario usuario){
+        Usuario usuario1 = usuarioService.updateUser(usuario);
+        if(usuario1==null)
+            return new ResponseEntity<>("El usuario no existe", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(usuario1,HttpStatus.OK);
+    }
+
+    @PostMapping("/usuarios/")
+    public ResponseEntity<?> addUser(@RequestBody Usuario usuario){
+        Usuario usuario1 = usuarioService.addUser(usuario);
+        if(usuario1==null)
+            return new ResponseEntity<>("El usuario ya existe", HttpStatus.FOUND);
+        return new ResponseEntity<>(usuario1,HttpStatus.OK);
+    }
 
 }

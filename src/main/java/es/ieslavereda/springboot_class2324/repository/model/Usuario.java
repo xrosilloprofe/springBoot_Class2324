@@ -1,4 +1,4 @@
-package es.ieslavereda.springboot_class2324.repository;
+package es.ieslavereda.springboot_class2324.repository.model;
 
 import lombok.*;
 
