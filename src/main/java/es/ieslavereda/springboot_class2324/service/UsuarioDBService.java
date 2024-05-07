@@ -23,11 +23,11 @@ public class UsuarioDBService {
     public Usuario deleteUser(int id) throws SQLException{
         return dbRepository.deleteUser(id);
     }
-    public Usuario addUser() throws SQLException{
-        return dbRepository.addUser();
+    public Usuario addUser(Usuario usuario) throws SQLException{
+        return dbRepository.addUser(usuario);
     }
-    public Usuario updateUser() throws SQLException{
-        return dbRepository.updateUser();
+    public Usuario updateUser(Usuario usuario) throws SQLException{
+        return dbRepository.updateUser(usuario);
     }
 
 }

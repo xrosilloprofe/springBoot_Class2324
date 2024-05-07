@@ -9,7 +9,7 @@ public interface IUsuarioDBRepository {
     List<Usuario> getAll() throws SQLException;
     Usuario getbyID(int id) throws SQLException;
     Usuario deleteUser(int id) throws SQLException;
-    Usuario addUser() throws SQLException;
-    Usuario updateUser() throws SQLException;
+    Usuario addUser(Usuario usuario) throws SQLException;
+    Usuario updateUser(Usuario usuario) throws SQLException;
 
 }

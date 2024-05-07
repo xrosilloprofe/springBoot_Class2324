@@ -50,6 +50,29 @@ public class UsuarioDBController {
         }
     }
 
+    @PostMapping("/usuarios/")
+    public ResponseEntity<?> addUser(@RequestBody Usuario usuario){
+        try{
+            Usuario usuario1 = dbService.addUser(usuario);
+            if (usuario1==null)
+                return new ResponseEntity<>("Usuario ya existente", HttpStatus.FOUND);
+            return new ResponseEntity<>(usuario1, HttpStatus.OK);
+        } catch (SQLException e){
+            return response(e);
+        }
+    }
+
+    @PutMapping("/usuarios/")
+    public ResponseEntity<?> updateUser(@RequestBody Usuario usuario){
+        try{
+            Usuario usuario1 = dbService.updateUser(usuario);
+            if (usuario1==null)
+                return new ResponseEntity<>("Usuario no existe", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(usuario1, HttpStatus.OK);
+        } catch (SQLException e){
+            return response(e);
+        }
+    }
 
     private ResponseEntity<?> response(SQLException e){
         Map<String,Object> response = new HashMap<>();

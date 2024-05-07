@@ -70,12 +70,34 @@ public class UsuarioDBRepository implements IUsuarioDBRepository{
     }
 
     @Override
-    public Usuario addUser() throws SQLException {
-        return null;
+    public Usuario addUser(Usuario usuario) throws SQLException {
+        String query = "INSERT INTO usuario(nombre, apellidos) VALUES(?,?)";
+        Usuario usuario1 = getbyID(usuario.getId());
+        if (usuario1!=null)
+            return null;
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1,usuario.getNombre());
+            ps.setString(2,usuario.getApellidos());
+            ps.executeUpdate();
+        }
+        return usuario;
     }
 
     @Override
-    public Usuario updateUser() throws SQLException {
-        return null;
+    public Usuario updateUser(Usuario usuario) throws SQLException {
+        String query = "UPDATE usuario SET nombre = ?, apellidos = ? where id = ?";
+        Usuario usuario1 = getbyID(usuario.getId());
+        if (usuario1==null)
+            return null;
+        try(Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1,usuario.getNombre());
+            ps.setString(2,usuario.getApellidos());
+            ps.setInt(3,usuario.getId());
+            ps.executeUpdate();
+
+        }
+        return getbyID(usuario.getId());
     }
 }
